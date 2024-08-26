@@ -58,6 +58,12 @@ server.on("/bscripts.js",HTTP_GET,[](AsyncWebServerRequest *request)
         { request->send(SPIFFS, "/bscripts.js"); });
 server.on("/",HTTP_GET,[](AsyncWebServerRequest *request)
         { request->send(SPIFFS, "/index.html"); });
+server.on("/buttons",HTTP_GET,[](AsyncWebServerRequest *request)
+        { request->send(SPIFFS, "/buttons.html"); });
+server.on("/info",HTTP_GET,[](AsyncWebServerRequest *request)
+        { request->send(SPIFFS, "/info.html"); });
+server.on("/gud",HTTP_GET,[](AsyncWebServerRequest *request)
+        { request->send(SPIFFS, "/gud.jpg"); });
         
         MDNS.addService("http","tcp",80);
 server.begin();
