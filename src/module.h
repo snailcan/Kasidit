@@ -66,5 +66,7 @@ void readEnvFile();
 void updateEnvVariable(const String &key, const String &value);
 bool configureNetwork(String IPAddressStr, String gatewayStr, String subnetStr, String dnsa);
 IPAddress stringToIPAddress(String ipStr);
+void handleNetworksConfig(AsyncWebServerRequest *request);
+void handleSaveConfig(AsyncWebServerRequest *request);
 /*---------------------- End Function -----------------------*/
 #endif

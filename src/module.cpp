@@ -31,7 +31,13 @@ void setup_wifi() {
   Serial.println(WiFi.localIP());
 }
 
-void setup_wifiAP(){
+void setup_wifiAP()
+    {
+    if (!WiFi.softAPConfig(ip,gateways,subnets))
+    {
+        Serial.println("AP Config Failed");
+    }
+
     WiFi.mode(WIFI_AP);
     WiFi.softAP(ssid, password);
 
@@ -60,7 +66,7 @@ if(!MDNS.begin("Kasidi")){
   Serial.println("Error Starting DNS");
   return;
 }
-/* ============================ อ่านไฟล์ .env ============================ */
+    /* ============================ อ่านไฟล์ .env ============================ */
     server.on("/env", HTTP_GET, [](AsyncWebServerRequest *request)
               {
     File file = SPIFFS.open("/.env", "r");
@@ -93,7 +99,12 @@ server.on("/networks",HTTP_GET,[](AsyncWebServerRequest *request)
         { request->send(SPIFFS, "/networks.html"); });
 server.on("/sc.js",HTTP_GET,[](AsyncWebServerRequest *request)
         { request->send(SPIFFS, "/sc.js"); });
-                 
+server.on("/networksConfig",HTTP_POST, handleNetworksConfig);
+server.on("/saveConfig", HTTP_POST, handleSaveConfig);
+
+     /* ==================================================================== */     
+
+
         
         MDNS.addService("http","tcp",80);
 server.begin();
@@ -377,3 +388,24 @@ String local_IP;
 String gateway;
 String subnet;
 String dnss;
+
+void handleSaveConfig(AsyncWebServerRequest *request)
+{
+  String action;
+  if (request->hasParam("action", true))
+  {
+    action = request->getParam("action", true)->value();
+    if (action == "complete")
+    {
+      skip = true;
+      // Perform complete action
+      request->send(200, "text/plain", "Complete action performed.");
+    }
+    else if (action == "restart")
+    {
+      request->send(200, "text/plain", "Restarting ESP.");
+      delay(2000);
+      ESP.restart();
+    }
+  }
+}
