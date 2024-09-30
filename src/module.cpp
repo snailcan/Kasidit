@@ -101,6 +101,10 @@ server.on("/sc.js",HTTP_GET,[](AsyncWebServerRequest *request)
         { request->send(SPIFFS, "/sc.js"); });
 server.on("/networksConfig",HTTP_POST, handleNetworksConfig);
 server.on("/saveConfig", HTTP_POST, handleSaveConfig);
+server.on("/snake_game",HTTP_GET,[](AsyncWebServerRequest *request)
+        { request->send(SPIFFS, "/snake_game.html"); });
+server.on("/shooting_game",HTTP_GET,[](AsyncWebServerRequest *request)
+        { request->send(SPIFFS, "/shooting_game.html"); });
 
      /* ==================================================================== */     
 

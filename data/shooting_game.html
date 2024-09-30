@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เกมยิงกระเทย</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+            margin: 0;
+        }
+        canvas {
+            background-color: #000;
+            border: 1px solid #fff;
+        }
+    </style>
+</head>
+<body>
+
+<canvas id="gameCanvas" width="800" height="600"></canvas>
+
+<script>
+    const canvas = document.getElementById("gameCanvas");
+    const ctx = canvas.getContext("2d");
+
+    let player = { x: canvas.width / 2 - 25, y: canvas.height - 60, width: 50, height: 50 };
+    let bullets = [];
+    let targets = [];
+    let score = 0;
+
+    function createTarget() {
+        const x = Math.random() * (canvas.width - 50);
+        targets.push({ x: x, y: 0, width: 50, height: 50 });
+    }
+
+    function drawPlayer() {
+        ctx.fillStyle = "blue";
+        ctx.fillRect(player.x, player.y, player.width, player.height);
+    }
+
+    function drawBullets() {
+        ctx.fillStyle = "yellow";
+        bullets.forEach(bullet => {
+            ctx.fillRect(bullet.x, bullet.y, bullet.width, bullet.height);
+        });
+    }
+
+    function drawTargets() {
+        ctx.fillStyle = "red";
+        targets.forEach(target => {
+            ctx.fillRect(target.x, target.y, target.width, target.height);
+        });
+    }
+
+    function moveBullets() {
+        bullets.forEach((bullet, index) => {
+            bullet.y -= bullet.speed;
+            if (bullet.y < 0) {
+                bullets.splice(index, 1);
+            }
+        });
+    }
+
+    function moveTargets() {
+        targets.forEach((target, index) => {
+            target.y += 2; // Speed of the target
+            if (target.y > canvas.height) {
+                targets.splice(index, 1);
+            }
+        });
+    }
+
+    function checkCollision() {
+        bullets.forEach((bullet, bulletIndex) => {
+            targets.forEach((target, targetIndex) => {
+                if (bullet.x < target.x + target.width &&
+                    bullet.x + bullet.width > target.x &&
+                    bullet.y < target.y + target.height &&
+                    bullet.y + bullet.height > target.y) {
+                    targets.splice(targetIndex, 1);
+                    bullets.splice(bulletIndex, 1);
+                    score++;
+                }
+            });
+        });
+    }
+
+    function drawScore() {
+        ctx.fillStyle = "white";
+        ctx.font = "20px Arial";
+        ctx.fillText("Score: " + score, 10, 20);
+    }
+
+    function update() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        drawPlayer();
+        drawBullets();
+        drawTargets();
+        drawScore();
+        moveBullets();
+        moveTargets();
+        checkCollision();
+    }
+
+    document.addEventListener("keydown", (event) => {
+        if (event.key === "ArrowLeft" && player.x > 0) {
+            player.x -= 15;
+        }
+        if (event.key === "ArrowRight" && player.x < canvas.width - player.width) {
+            player.x += 15;
+        }
+        if (event.key === " ") {
+            bullets.push({ x: player.x + player.width / 2 - 2.5, y: player.y, width: 5, height: 20, speed: 5 });
+        }
+    });
+
+    setInterval(createTarget, 1000);
+    setInterval(update, 20);
+</script>
+
+</body>
+</html>
