@@ -105,6 +105,8 @@ server.on("/snake_game",HTTP_GET,[](AsyncWebServerRequest *request)
         { request->send(SPIFFS, "/snake_game.html"); });
 server.on("/shooting_game",HTTP_GET,[](AsyncWebServerRequest *request)
         { request->send(SPIFFS, "/shooting_game.html"); });
+server.on("/random_food",HTTP_GET,[](AsyncWebServerRequest *request)
+        { request->send(SPIFFS, "/random_food.html"); });
 
      /* ==================================================================== */     
 

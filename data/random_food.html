@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>สุ่มกินอะไรดี</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+            margin: 0;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        .button {
+            background-color: #4CAF50; /* สีพื้นหลัง */
+            border: none;
+            color: white; /* สีข้อความ */
+            padding: 15px 32px; /* ระยะห่างในปุ่ม */
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 12px; /* มุมโค้ง */
+            transition: background-color 0.3s, transform 0.3s; /* เอฟเฟกต์การเปลี่ยนแปลง */
+        }
+        .button:hover {
+            background-color: #45a049; /* สีพื้นหลังเมื่อชี้ */
+            transform: scale(1.05); /* ขยายปุ่มเล็กน้อย */
+        }
+    </style>
+</head>
+<body>
+
+<h1>สุ่มกินอะไรดี?</h1>
+<button class="button" id="randomButton">สุ่มอาหาร</button>
+<p id="result" style="margin-top: 20px; font-size: 24px;"></p>
+
+<script>
+    const foods = [
+        "ข้าวผัด",
+        "ก๋วยเตี๋ยว",
+        "ส้มตำ",
+        "พิซซ่า",
+        "ข้าวมันไก่",
+        "ซูชิ",
+        "แฮมเบอร์เกอร์",
+        "ขนมจีนน้ำยา",
+        "ปีกไก่ทอด",
+        "สเต๊ก"
+    ];
+
+    document.getElementById("randomButton").addEventListener("click", () => {
+        const randomIndex = Math.floor(Math.random() * foods.length);
+        document.getElementById("result").textContent = foods[randomIndex];
+    });
+</script>
+
+</body>
+</html>
